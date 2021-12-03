@@ -12,8 +12,8 @@ namespace Game_of_Life
 {
     public partial class Form1 : Form
     {
-        int width = 25;
-        int lenght = 25;
+        int width = 30;
+        int lenght = 30;
 
         bool ShowNeighborCount = true;
         bool universeState = false;
@@ -318,7 +318,7 @@ namespace Game_of_Life
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            timer.Enabled = !timer.Enabled;
+            timer.Enabled = true;
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -388,6 +388,16 @@ namespace Game_of_Life
             universeState = true;
 
             graphicsPanel1.Invalidate();
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
         }
     }
 }
