@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -398,6 +399,42 @@ namespace Game_of_Life
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+            dlg.DefaultExt = "cells";
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                writer.WriteLine("!This is a cell save file");
+
+                for (int y = 0; y < lenght; y++)
+                {
+                    string row = string.Empty;
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        if (universe[x, y] == true)
+                        {
+                            row += "O";
+                        }
+                        else
+                        {
+                            row += ".";
+                        }
+                    }
+
+                    writer.WriteLine(row);
+                }
+
+                writer.Close();
+            }
         }
     }
 }
