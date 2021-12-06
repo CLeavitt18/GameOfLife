@@ -436,5 +436,73 @@ namespace Game_of_Life
                 writer.Close();
             }
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                while (!reader.EndOfStream)
+                {
+                    string row = reader.ReadLine();
+
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
+
+                    maxHeight++;
+
+                    maxWidth = row.Length;
+                }
+
+                width = maxWidth;
+                lenght = maxHeight;
+
+                universe = new bool[width, lenght];
+                scratchPad = new bool[width, lenght];
+
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                int y = 0;
+
+                while (!reader.EndOfStream)
+                {
+                    string row = reader.ReadLine();
+                    
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
+
+                    for (int x = 0; x < row.Length; x++)
+                    {
+                        if (row[x] == 'O')
+                        {
+                            universe[x, y] = true;
+                        }
+                        else
+                        {
+                            universe[x, y] = false;
+                        }
+                    }
+
+                    y++;
+                }
+
+                graphicsPanel1.Invalidate();
+
+                reader.Close();
+            }
+
+        }
     }
 }
