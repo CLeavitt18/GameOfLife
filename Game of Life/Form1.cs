@@ -20,7 +20,7 @@ namespace Game_of_Life
 
         bool showHUD = true;
         bool ShowNeighborCount = true;
-        bool showGrid;
+        bool showGrid = true;
 
         //Finite mode if false toroidal if true;
         bool boundaryType = false;
@@ -446,6 +446,7 @@ namespace Game_of_Life
 
         private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Toggles the HUD on and off
             showHUD = !showHUD;
 
             graphicsPanel1.Invalidate();
@@ -658,9 +659,25 @@ namespace Game_of_Life
 
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Toggles the grid on and off
             showGrid = !showGrid;
 
             graphicsPanel1.Invalidate();
+        }
+
+        private void neighborCountToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            neighborCountToolStripMenuItem_Click(sender, e);
+        }
+
+        private void hUDToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            hUDToolStripMenuItem_Click(sender, e);
+        }
+
+        private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            gridToolStripMenuItem_Click(sender, e);
         }
     }
 }
