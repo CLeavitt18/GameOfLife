@@ -493,12 +493,6 @@ namespace Game_of_Life
             timer.Enabled = false;
         }
 
-        private void runToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //starts the timer when the run tool option is clicked
-            timer.Enabled = true;
-        }
-
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Saves the current universe to a cell file
@@ -706,6 +700,35 @@ namespace Game_of_Life
 
                 graphicsPanel1.Invalidate();
             }
+        }
+
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = gridColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            backColorToolStripMenuItem1_Click(sender, e);
+        }
+
+        private void cellColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            cellColorToolStripMenuItem_Click(sender, e);
+        }
+
+        private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            gridColorToolStripMenuItem_Click(sender, e);
         }
     }
 }
