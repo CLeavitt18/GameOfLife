@@ -18,10 +18,13 @@ namespace Game_of_Life
         //universe y legnth
         int lenght = 30;
 
+        bool showHUD = true;
         bool ShowNeighborCount = true;
+        bool showGrid;
 
         //Finite mode if false toroidal if true;
-        bool universeState = false;
+        bool boundaryType = false;
+
 
         bool[,] universe;
         bool[,] scratchPad;
@@ -61,7 +64,7 @@ namespace Game_of_Life
                     //check to see whitch CountNeightbors to call
                     //if false finite is called
                     //if true toroidal is called
-                    if (universeState == false)
+                    if (boundaryType == false)
                     {
                         //finite count neighbors
                         neighbors = CountNeighborsFinite(x, y);
@@ -262,6 +265,7 @@ namespace Game_of_Life
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+            int aliveCells = 0;
             //set the font type and size
             //for the cells neighbor count
             Font font = new Font("Arial", 6f * (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0) / 20f);
@@ -294,7 +298,7 @@ namespace Game_of_Life
                     //check to see witch version of count neighbors to call
                     //if false we call finite
                     //if true we call toroidal
-                    if (universeState == false)
+                    if (boundaryType == false)
                     {
                         count = CountNeighborsFinite(x, y);
                     }
@@ -316,6 +320,8 @@ namespace Game_of_Life
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
+                        aliveCells++;
+
                         e.Graphics.FillRectangle(cellBrush, cellRect);
 
                         //Set neighbors brush to green if the cell will live to the next generation
@@ -338,9 +344,35 @@ namespace Game_of_Life
                         e.Graphics.DrawString(count.ToString(), font, countColor, cellRect, stringformat);
                     }
 
+                    if (showGrid)
+                    {
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
+            }
+
+            if (showHUD)
+            {
+                PointF point = new Point(0, graphicsPanel1.ClientSize.Height - ((int)font.Size + 15));
+                e.Graphics.DrawString("Universe Size: width = " + width + " Height = " + lenght, font, Brushes.Green, point);
+
+                if (boundaryType)
+                {
+                    point.Y -= font.Size + 8;
+                    e.Graphics.DrawString("Boundary Type: Toroidal", font, Brushes.Green, point);
+                }
+                else
+                {
+                    point.Y -= font.Size + 8;
+                    e.Graphics.DrawString("Boundary Type: Finite", font, Brushes.Green, point);
+                }
+
+                point.Y -= font.Size + 8;
+                e.Graphics.DrawString("Cell Count: " + aliveCells, font, Brushes.Green, point);
+
+                point.Y -= font.Size + 8;
+                e.Graphics.DrawString("Generations: " + generations, font, Brushes.Green, point);
             }
 
             // Cleaning up pens and brushes
@@ -414,7 +446,9 @@ namespace Game_of_Life
 
         private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            showHUD = !showHUD;
 
+            graphicsPanel1.Invalidate();
         }
 
         private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
@@ -439,7 +473,7 @@ namespace Game_of_Life
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //sets the count neighbors call to finite
-            universeState = false;
+            boundaryType = false;
 
             graphicsPanel1.Invalidate();
         }
@@ -447,7 +481,7 @@ namespace Game_of_Life
         private void torodialToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //sets the count neighbors call to toroidal
-            universeState = true;
+            boundaryType = true;
 
             graphicsPanel1.Invalidate();
         }
@@ -599,12 +633,34 @@ namespace Game_of_Life
                     y++;
                 }
 
+                generations = 0;
+
                 //Make the graphics panel redraw it's self
                 graphicsPanel1.Invalidate();
 
                 //Close the reader once we have read all the rows
                 reader.Close();
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //clears the universe
+            universe = new bool[width, lenght];
+            scratchPad = new bool[width, lenght];
+
+            timer.Enabled = false;
+            generations = 0;
+
+            graphicsPanel1.Invalidate();
+
+        }
+
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showGrid = !showGrid;
+
+            graphicsPanel1.Invalidate();
         }
     }
 }
