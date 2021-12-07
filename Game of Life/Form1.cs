@@ -30,7 +30,7 @@ namespace Game_of_Life
         bool[,] scratchPad;
 
         Color gridColor = Color.Black;
-        Color cellColor = Color.LightGray;
+        Color cellColor = Color.Black;
 
         Timer timer = new Timer();
 
@@ -689,6 +689,20 @@ namespace Game_of_Life
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = cellColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
 
                 graphicsPanel1.Invalidate();
             }
