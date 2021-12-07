@@ -679,5 +679,19 @@ namespace Game_of_Life
         {
             gridToolStripMenuItem_Click(sender, e);
         }
+
+        private void backColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = graphicsPanel1.BackColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
     }
 }
