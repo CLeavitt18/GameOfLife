@@ -29,8 +29,9 @@ namespace Game_of_Life
         bool[,] universe;
         bool[,] scratchPad;
 
-        Color gridColor = Color.Black;
         Color cellColor = Color.Black;
+        Color gridColor = Color.Black;
+        Color gridX10Color = Color.Black;
 
         Timer timer = new Timer();
 
@@ -344,11 +345,34 @@ namespace Game_of_Life
                         e.Graphics.DrawString(count.ToString(), font, countColor, cellRect, stringformat);
                     }
 
+                    // Outline the cell with a pen
                     if (showGrid)
                     {
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                        if ((y + 1) % 10 == 0)
+                        {
+                            PointF startpoint = new PointF(0, cellHeight * (y + 1));
+                            PointF endpoint = new PointF(graphicsPanel1.Width, startpoint.Y);
+
+                            Pen gridpen = new Pen(gridX10Color);
+
+                            gridpen.Width = 3;
+                            e.Graphics.DrawLine(gridpen, startpoint, endpoint);
+                        }
+
+                        if ((x + 1) % 10 == 0)
+                        {
+                            PointF startpoint = new PointF(cellWidth * (x + 1), 0);
+                            PointF endpoint = new PointF(startpoint.X, graphicsPanel1.Height);
+
+                            Pen gridpen = new Pen(gridX10Color);
+
+                            gridpen.Width = 3;
+                            e.Graphics.DrawLine(gridpen, startpoint, endpoint);
+                        }
                     }
-                    // Outline the cell with a pen
+
+
                 }
             }
 
@@ -729,6 +753,11 @@ namespace Game_of_Life
         private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             gridColorToolStripMenuItem_Click(sender, e);
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
