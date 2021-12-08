@@ -18,6 +18,8 @@ namespace Game_of_Life
         //universe y legnth
         int lenght = 30;
 
+        int interval = 100;
+
         bool showHUD = true;
         bool ShowNeighborCount = true;
         bool showGrid = true;
@@ -45,7 +47,7 @@ namespace Game_of_Life
             scratchPad = new bool[width, lenght];
 
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = interval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -757,7 +759,20 @@ namespace Game_of_Life
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            OptionsDialog dlg = new OptionsDialog();
 
+            dlg.SetInterval(interval);
+            dlg.SetWidth(width);
+            dlg.SetHeight(lenght);
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                interval = dlg.GetInterval();
+                width = dlg.GetWidth();
+                lenght = dlg.GetHeight();
+
+                toolStripMenuItem2_Click(sender, e);
+            }
         }
     }
 }
