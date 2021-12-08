@@ -475,6 +475,8 @@ namespace Game_of_Life
             //Toggles the HUD on and off
             showHUD = !showHUD;
 
+            helpToolStripMenuItem.Checked = showHUD;
+
             graphicsPanel1.Invalidate();
         }
 
@@ -482,6 +484,8 @@ namespace Game_of_Life
         {
             //Toggels if the nieghbor count will be drawn on the cell
             ShowNeighborCount = !ShowNeighborCount;
+
+            neighborCountToolStripMenuItem.Checked = ShowNeighborCount;
 
             graphicsPanel1.Invalidate();
         }
@@ -502,6 +506,9 @@ namespace Game_of_Life
             //sets the count neighbors call to finite
             boundaryType = false;
 
+            torodialToolStripMenuItem.Checked = boundaryType;
+            finiteToolStripMenuItem.Checked = !boundaryType;
+
             graphicsPanel1.Invalidate();
         }
 
@@ -509,6 +516,9 @@ namespace Game_of_Life
         {
             //sets the count neighbors call to toroidal
             boundaryType = true;
+
+            torodialToolStripMenuItem.Checked = boundaryType;
+            finiteToolStripMenuItem.Checked = !boundaryType;
 
             graphicsPanel1.Invalidate();
         }
