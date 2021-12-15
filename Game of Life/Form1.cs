@@ -830,5 +830,19 @@ namespace Game_of_Life
 
             graphicsPanel1.Invalidate();
         }
+
+        private void fromTimetoolStripMenu_Click(object sender, EventArgs e)
+        {
+            DateTime currentTime = System.DateTime.Now;
+            seed =  currentTime.Day + currentTime.Month + currentTime.Year + currentTime.Hour + currentTime.Hour + currentTime.Minute + currentTime.Second;
+
+            Random ran = new Random(seed);
+
+            seed = ran.Next();
+
+            toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
+
+            fromCurrentSeedToolStripMenuItem_Click(sender, e);
+        }
     }
 }
