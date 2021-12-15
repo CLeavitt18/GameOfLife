@@ -17,8 +17,9 @@ namespace Game_of_Life
         int width = 30;
         //universe y legnth
         int lenght = 30;
-
         int interval = 100;
+        int aliveCells = 0;
+        int seed;
 
         bool showHUD = true;
         bool ShowNeighborCount = true;
@@ -55,6 +56,7 @@ namespace Game_of_Life
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+            aliveCells = 0;
             //interate thuoght the universe height
             for (int y = 0; y < lenght; y++)
             {
@@ -93,6 +95,7 @@ namespace Game_of_Life
                             //cell lives to the next generation
                             //the cell has 2 or 3 living neioghbors
                             scratchPad[x, y] = true;
+                            aliveCells++;
                         }
                     }
                     else
@@ -104,6 +107,7 @@ namespace Game_of_Life
                         if (neighbors == 3)
                         {
                             scratchPad[x, y] = true;
+                            aliveCells++;
                         }
                         else
                         {
@@ -122,6 +126,9 @@ namespace Game_of_Life
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            IntervaltoolStripStatusLabal.Text = "Interval = " + interval.ToString();
+            toolStripStatusLabelAlive.Text = "Alive = " + aliveCells.ToString();
+            toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
             
             //make graphics panel redraw
             graphicsPanel1.Invalidate();
@@ -268,7 +275,6 @@ namespace Game_of_Life
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            int aliveCells = 0;
             //set the font type and size
             //for the cells neighbor count
             Font font = new Font("Arial", 6f * (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0) / 20f);
@@ -323,8 +329,6 @@ namespace Game_of_Life
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
-                        aliveCells++;
-
                         e.Graphics.FillRectangle(cellBrush, cellRect);
 
                         //Set neighbors brush to green if the cell will live to the next generation
@@ -783,6 +787,48 @@ namespace Game_of_Life
 
                 toolStripMenuItem2_Click(sender, e);
             }
+        }
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RandomizeFromSeedDialogBox dlg = new RandomizeFromSeedDialogBox();
+
+            dlg.SetSeed(seed);
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                seed = dlg.GetSeed();
+
+                fromCurrentSeedToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Random ran = new Random(seed);
+
+            for (int y = 0; y < lenght; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int chance = ran.Next() % 3;
+
+                    if (chance == 0)
+                    {
+                        scratchPad[x, y] = true;
+                    }
+                    else
+                    {
+                        scratchPad[x, y] = false;
+                    }
+                }
+            }
+
+            bool[,] temp = universe;
+            universe = scratchPad;
+            scratchPad = temp;
+
+            graphicsPanel1.Invalidate();
         }
     }
 }
