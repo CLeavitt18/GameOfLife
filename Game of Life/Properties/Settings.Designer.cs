@@ -8,21 +8,162 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-namespace Game_of_Life.Properties
-{
+namespace Game_of_Life.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int width {
+            get {
+                return ((int)(this["width"]));
+            }
+            set {
+                this["width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int lenght {
+            get {
+                return ((int)(this["lenght"]));
+            }
+            set {
+                this["lenght"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int interval {
+            get {
+                return ((int)(this["interval"]));
+            }
+            set {
+                this["interval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int seed {
+            get {
+                return ((int)(this["seed"]));
+            }
+            set {
+                this["seed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool showHUD {
+            get {
+                return ((bool)(this["showHUD"]));
+            }
+            set {
+                this["showHUD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNeighborCount {
+            get {
+                return ((bool)(this["ShowNeighborCount"]));
+            }
+            set {
+                this["ShowNeighborCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool showGrid {
+            get {
+                return ((bool)(this["showGrid"]));
+            }
+            set {
+                this["showGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool boundaryType {
+            get {
+                return ((bool)(this["boundaryType"]));
+            }
+            set {
+                this["boundaryType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gray")]
+        public global::System.Drawing.Color cellColor {
+            get {
+                return ((global::System.Drawing.Color)(this["cellColor"]));
+            }
+            set {
+                this["cellColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color gridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["gridColor"]));
+            }
+            set {
+                this["gridColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color gridX10Color {
+            get {
+                return ((global::System.Drawing.Color)(this["gridX10Color"]));
+            }
+            set {
+                this["gridX10Color"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color BackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["BackColor"]));
+            }
+            set {
+                this["BackColor"] = value;
             }
         }
     }

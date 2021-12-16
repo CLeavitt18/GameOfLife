@@ -1,7 +1,42 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Game_of_Life.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="lenght" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="interval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="seed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="showHUD" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowNeighborCount" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="showGrid" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="boundaryType" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="cellColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gray</Value>
+    </Setting>
+    <Setting Name="gridColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="gridX10Color" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="BackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -14,27 +14,46 @@ namespace Game_of_Life
     public partial class Form1 : Form
     {
         //universe x legnth
-        int width = 30;
+        int width = Properties.Settings.Default.width;
+        int startwidth = Properties.Settings.Default.width;
         //universe y legnth
-        int lenght = 30;
-        int interval = 100;
-        int aliveCells = 0;
-        int seed;
+        int lenght = Properties.Settings.Default.lenght;
+        int startlenght = Properties.Settings.Default.lenght;
 
-        bool showHUD = true;
-        bool ShowNeighborCount = true;
-        bool showGrid = true;
+        int interval = Properties.Settings.Default.interval;
+        int startinterval = Properties.Settings.Default.interval;
+
+        int aliveCells = 0;
+
+        int seed = Properties.Settings.Default.seed;
+        int startseed = Properties.Settings.Default.seed;
+
+        bool showHUD = Properties.Settings.Default.showHUD;
+        bool startshowHUD = Properties.Settings.Default.showHUD;
+
+        bool ShowNeighborCount = Properties.Settings.Default.ShowNeighborCount;
+        bool startShowNeighborCount = Properties.Settings.Default.ShowNeighborCount;
+
+        bool showGrid = Properties.Settings.Default.showGrid;
+        bool startshowGrid = Properties.Settings.Default.showGrid;
 
         //Finite mode if false toroidal if true;
-        bool boundaryType = false;
-
+        bool boundaryType = Properties.Settings.Default.boundaryType;
+        bool startboundaryType = Properties.Settings.Default.boundaryType;
 
         bool[,] universe;
         bool[,] scratchPad;
 
-        Color cellColor = Color.Black;
-        Color gridColor = Color.Black;
-        Color gridX10Color = Color.Black;
+        Color startBackColor = Properties.Settings.Default.BackColor;
+
+        Color cellColor = Properties.Settings.Default.cellColor;
+        Color startcellColor = Properties.Settings.Default.cellColor;
+
+        Color gridColor = Properties.Settings.Default.gridColor;
+        Color startgridColor = Properties.Settings.Default.gridColor;
+
+        Color gridX10Color = Properties.Settings.Default.gridX10Color;
+        Color startgridX10Color = Properties.Settings.Default.gridX10Color;
 
         Timer timer = new Timer();
 
@@ -51,6 +70,8 @@ namespace Game_of_Life
             timer.Interval = interval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
+
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
         }
 
         // Calculate the next generation of cells
@@ -124,12 +145,6 @@ namespace Game_of_Life
             // Increment generation count
             generations++;
 
-            // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-            IntervaltoolStripStatusLabal.Text = "Interval = " + interval.ToString();
-            toolStripStatusLabelAlive.Text = "Alive = " + aliveCells.ToString();
-            toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
-            
             //make graphics panel redraw
             graphicsPanel1.Invalidate();
         }
@@ -221,7 +236,7 @@ namespace Game_of_Life
                     {
                         continue;
                     }
-                    
+
                     //check to see if x is less then 0 
                     // if x = -1
                     if (xCheck < 0)
@@ -239,7 +254,7 @@ namespace Game_of_Life
                         //so we can wrap around to the other side
                         yCheck = lenght - 1;
                     }
-                    
+
                     //check to see if x is greater than the universe size 
                     if (xCheck >= width)
                     {
@@ -355,30 +370,7 @@ namespace Game_of_Life
                     if (showGrid)
                     {
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-                        if ((y + 1) % 10 == 0)
-                        {
-                            PointF startpoint = new PointF(0, cellHeight * (y + 1));
-                            PointF endpoint = new PointF(graphicsPanel1.Width, startpoint.Y);
-
-                            Pen gridpen = new Pen(gridX10Color);
-
-                            gridpen.Width = 3;
-                            e.Graphics.DrawLine(gridpen, startpoint, endpoint);
-                        }
-
-                        if ((x + 1) % 10 == 0)
-                        {
-                            PointF startpoint = new PointF(cellWidth * (x + 1), 0);
-                            PointF endpoint = new PointF(startpoint.X, graphicsPanel1.Height);
-
-                            Pen gridpen = new Pen(gridX10Color);
-
-                            gridpen.Width = 3;
-                            e.Graphics.DrawLine(gridpen, startpoint, endpoint);
-                        }
                     }
-
-
                 }
             }
 
@@ -404,6 +396,43 @@ namespace Game_of_Life
                 point.Y -= font.Size + 8;
                 e.Graphics.DrawString("Generations: " + generations, font, Brushes.Green, point);
             }
+
+
+            if (showGrid)
+            {
+                for (int y = 0; y < universe.GetLength(1) / 10; y++)
+                {
+                    float x10gridy = (float)graphicsPanel1.Height / universe.GetLength(1) * 10 * (y + 1);
+
+                    PointF startpoint = new PointF(0, x10gridy);
+                    PointF endpoint = new PointF(graphicsPanel1.Width, startpoint.Y);
+
+                    Pen gridpen = new Pen(gridX10Color);
+
+                    gridpen.Width = 3;
+                    e.Graphics.DrawLine(gridpen, startpoint, endpoint);
+
+                }
+
+                for (int x = 0; x < universe.GetLength(1) / 10; x++)
+                {
+                    float x10gridx = (float)graphicsPanel1.Width / universe.GetLength(0) * 10 * (x + 1);
+
+                    PointF startpoint = new PointF(x10gridx, 0);
+                    PointF endpoint = new PointF(startpoint.X, graphicsPanel1.Height);
+
+                    Pen gridpen = new Pen(gridX10Color);
+
+                    gridpen.Width = 3;
+                    e.Graphics.DrawLine(gridpen, startpoint, endpoint);
+
+                }
+            }
+
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            IntervaltoolStripStatusLabal.Text = "Interval = " + interval.ToString();
+            toolStripStatusLabelAlive.Text = "Alive = " + aliveCells.ToString();
+            toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
 
             // Cleaning up pens and brushes
             gridPen.Dispose();
@@ -497,6 +526,29 @@ namespace Game_of_Life
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             //clears the universe
+            width = 30;
+            Properties.Settings.Default.width = width;
+
+            lenght = 30;
+            Properties.Settings.Default.lenght = lenght;
+
+            interval = 100;
+            Properties.Settings.Default.interval = interval;
+
+            graphicsPanel1.BackColor = Color.White;
+            Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
+
+            cellColor = Color.Gray;
+            Properties.Settings.Default.cellColor = cellColor;
+
+            gridColor = Color.Black;
+            Properties.Settings.Default.gridColor = gridColor;
+
+            gridX10Color = Color.Black;
+            Properties.Settings.Default.gridX10Color = gridX10Color;
+
+            Properties.Settings.Default.Save();
+
             universe = new bool[width, lenght];
             scratchPad = new bool[width, lenght];
 
@@ -627,7 +679,7 @@ namespace Game_of_Life
                 //using the new width and lenght
                 universe = new bool[width, lenght];
                 scratchPad = new bool[width, lenght];
-                
+
                 //Set the readers location to the beginig of the file
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
@@ -639,7 +691,7 @@ namespace Game_of_Life
                 {
                     //read the current row we are on then move the reader to the next line
                     string row = reader.ReadLine();
-                    
+
                     //if the first element of the string is a ! then the row is a comment
                     //and we ignore the row
                     if (row[0] == '!')
@@ -659,7 +711,7 @@ namespace Game_of_Life
                         }
                         else
                         {
-                            
+
                             universe[x, y] = false;
                         }
                     }
@@ -724,6 +776,9 @@ namespace Game_of_Life
             {
                 graphicsPanel1.BackColor = dlg.Color;
 
+                Properties.Settings.Default.BackColor = dlg.Color;
+                Properties.Settings.Default.Save();
+
                 graphicsPanel1.Invalidate();
             }
         }
@@ -738,6 +793,9 @@ namespace Game_of_Life
             {
                 cellColor = dlg.Color;
 
+                Properties.Settings.Default.cellColor = dlg.Color;
+                //Properties.Settings.Default.Save();
+
                 graphicsPanel1.Invalidate();
             }
         }
@@ -751,6 +809,9 @@ namespace Game_of_Life
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 gridColor = dlg.Color;
+
+                Properties.Settings.Default.gridColor = dlg.Color;
+                Properties.Settings.Default.Save();
 
                 graphicsPanel1.Invalidate();
             }
@@ -769,6 +830,23 @@ namespace Game_of_Life
         private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             gridColorToolStripMenuItem_Click(sender, e);
+        }
+
+        private void gridX10ColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = gridX10Color;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridX10Color = dlg.Color;
+
+                Properties.Settings.Default.gridX10Color = dlg.Color;
+                Properties.Settings.Default.Save();
+
+                graphicsPanel1.Invalidate();
+            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -798,6 +876,9 @@ namespace Game_of_Life
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 seed = dlg.GetSeed();
+
+                Properties.Settings.Default.seed = seed;
+                Properties.Settings.Default.Save();
 
                 fromCurrentSeedToolStripMenuItem_Click(sender, e);
             }
@@ -834,7 +915,7 @@ namespace Game_of_Life
         private void fromTimetoolStripMenu_Click(object sender, EventArgs e)
         {
             DateTime currentTime = System.DateTime.Now;
-            seed =  currentTime.Day + currentTime.Month + currentTime.Year + currentTime.Hour + currentTime.Hour + currentTime.Minute + currentTime.Second;
+            seed = currentTime.Day + currentTime.Month + currentTime.Year + currentTime.Hour + currentTime.Hour + currentTime.Minute + currentTime.Second;
 
             Random ran = new Random(seed);
 
@@ -843,6 +924,49 @@ namespace Game_of_Life
             toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
 
             fromCurrentSeedToolStripMenuItem_Click(sender, e);
+        }
+
+        private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButton1_Click(sender, e);
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButton4_Click(sender, e);
+        }
+
+        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripButton2_Click(sender, e);
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            width = startwidth;
+            Properties.Settings.Default.width = width;
+
+            lenght = startlenght;
+            Properties.Settings.Default.lenght = lenght;
+
+            interval = startinterval;
+            Properties.Settings.Default.interval = interval;
+
+            graphicsPanel1.BackColor = startBackColor;
+            Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
+
+            cellColor = startcellColor;
+            Properties.Settings.Default.cellColor = cellColor;
+
+            gridColor = startgridColor;
+            Properties.Settings.Default.gridColor = gridColor;
+
+            gridX10Color = startgridX10Color;
+            Properties.Settings.Default.gridX10Color = gridX10Color;
+
+            Properties.Settings.Default.Save();
+
+            graphicsPanel1.Invalidate();
         }
     }
 }
