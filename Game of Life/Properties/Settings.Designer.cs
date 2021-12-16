@@ -38,12 +38,12 @@ namespace Game_of_Life.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("30")]
-        public int lenght {
+        public int length {
             get {
-                return ((int)(this["lenght"]));
+                return ((int)(this["length"]));
             }
             set {
-                this["lenght"] = value;
+                this["length"] = value;
             }
         }
         

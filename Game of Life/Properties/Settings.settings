@@ -5,7 +5,7 @@
     <Setting Name="width" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-    <Setting Name="lenght" Type="System.Int32" Scope="User">
+    <Setting Name="length" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
     <Setting Name="interval" Type="System.Int32" Scope="User">

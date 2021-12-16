@@ -15,17 +15,23 @@ namespace Game_of_Life
     {
         //universe x legnth
         int width = Properties.Settings.Default.width;
+        //stores the starting value for the universe width to be used if the reload button is clicked
         int startwidth = Properties.Settings.Default.width;
         //universe y legnth
-        int lenght = Properties.Settings.Default.lenght;
-        int startlenght = Properties.Settings.Default.lenght;
-
+        int length = Properties.Settings.Default.length;
+        //stores the starting value for the universe lenght to be used if the reload button is clicked
+        int startlength = Properties.Settings.Default.length;
+        //How often next generation is called from the timer in milliseconds
         int interval = Properties.Settings.Default.interval;
+        //stores the starting value for the interval to be used if the reload button is clicked
         int startinterval = Properties.Settings.Default.interval;
 
+        //keeps tracker of how many cells are alive
         int aliveCells = 0;
 
+        //number to be used to seed a random class 
         int seed = Properties.Settings.Default.seed;
+        //stores the starting value for seed to be used if the reload button is clicked
         int startseed = Properties.Settings.Default.seed;
 
         bool showHUD = Properties.Settings.Default.showHUD;
@@ -63,8 +69,8 @@ namespace Game_of_Life
         {
             InitializeComponent();
 
-            universe = new bool[width, lenght];
-            scratchPad = new bool[width, lenght];
+            universe = new bool[width, length];
+            scratchPad = new bool[width, length];
 
             // Setup the timer
             timer.Interval = interval; // milliseconds
@@ -79,7 +85,7 @@ namespace Game_of_Life
         {
             aliveCells = 0;
             //interate thuoght the universe height
-            for (int y = 0; y < lenght; y++)
+            for (int y = 0; y < length; y++)
             {
                 //interate thuoght the universe width
                 for (int x = 0; x < width; x++)
@@ -193,7 +199,7 @@ namespace Game_of_Life
                         //if x is greater than the size of the array then we ignore this cell
                         continue;
                     }
-                    else if (yCheck >= lenght)
+                    else if (yCheck >= length)
                     {
                         //check to see if the current cell being checked
                         //is inside the array not greater than the size of the universe
@@ -252,7 +258,7 @@ namespace Game_of_Life
                     {
                         //set y = to the max width of the universe 
                         //so we can wrap around to the other side
-                        yCheck = lenght - 1;
+                        yCheck = length - 1;
                     }
 
                     //check to see if x is greater than the universe size 
@@ -263,7 +269,7 @@ namespace Game_of_Life
                     }
 
                     //check to see if y is greater than the universe size 
-                    if (yCheck >= lenght)
+                    if (yCheck >= length)
                     {
                         //set y to 0 so we can wrap around to the other side to check that cell
                         yCheck = 0;
@@ -377,7 +383,7 @@ namespace Game_of_Life
             if (showHUD)
             {
                 PointF point = new Point(0, graphicsPanel1.ClientSize.Height - ((int)font.Size + 15));
-                e.Graphics.DrawString("Universe Size: width = " + width + " Height = " + lenght, font, Brushes.Green, point);
+                e.Graphics.DrawString("Universe Size: width = " + width + " Height = " + length, font, Brushes.Green, point);
 
                 if (boundaryType)
                 {
@@ -486,6 +492,9 @@ namespace Game_of_Life
 
             helpToolStripMenuItem.Checked = showHUD;
 
+            Properties.Settings.Default.showHUD = showHUD;
+            Properties.Settings.Default.Save();
+
             graphicsPanel1.Invalidate();
         }
 
@@ -496,6 +505,9 @@ namespace Game_of_Life
 
             neighborCountToolStripMenuItem.Checked = ShowNeighborCount;
 
+            Properties.Settings.Default.ShowNeighborCount = ShowNeighborCount;
+            Properties.Settings.Default.Save();
+
             graphicsPanel1.Invalidate();
         }
 
@@ -505,8 +517,8 @@ namespace Game_of_Life
             width = 30;
             Properties.Settings.Default.width = width;
 
-            lenght = 30;
-            Properties.Settings.Default.lenght = lenght;
+            length = 30;
+            Properties.Settings.Default.length = length;
 
             interval = 100;
             Properties.Settings.Default.interval = interval;
@@ -525,8 +537,8 @@ namespace Game_of_Life
 
             Properties.Settings.Default.Save();
 
-            universe = new bool[width, lenght];
-            scratchPad = new bool[width, lenght];
+            universe = new bool[width, length];
+            scratchPad = new bool[width, length];
 
             generations = 0;
 
@@ -541,6 +553,9 @@ namespace Game_of_Life
             torodialToolStripMenuItem.Checked = boundaryType;
             finiteToolStripMenuItem.Checked = !boundaryType;
 
+            Properties.Settings.Default.boundaryType = boundaryType;
+            Properties.Settings.Default.Save();
+
             graphicsPanel1.Invalidate();
         }
 
@@ -552,6 +567,9 @@ namespace Game_of_Life
             torodialToolStripMenuItem.Checked = boundaryType;
             finiteToolStripMenuItem.Checked = !boundaryType;
 
+            Properties.Settings.Default.boundaryType = boundaryType;
+            Properties.Settings.Default.Save();
+
             graphicsPanel1.Invalidate();
         }
 
@@ -560,9 +578,11 @@ namespace Game_of_Life
             //pause the games time when the pause btton is clicked
             timer.Enabled = false;
 
+            //turning all of the items that pasue the game off while the game is paused
             pauseToolStripMenuItem.Enabled = false;
             PausetoolStripButton.Enabled = false;
-            
+
+            //turning all of the items that play the game on while the game is paused
             PlaytoolStripButton.Enabled = true;
             playToolStripMenuItem.Enabled = true;
         }
@@ -588,7 +608,7 @@ namespace Game_of_Life
                 writer.WriteLine("!This is a cell save file");
 
                 //Interate thuoght the universe on the y postion
-                for (int y = 0; y < lenght; y++)
+                for (int y = 0; y < length; y++)
                 {
                     //make a new string that is empty by default
                     string row = string.Empty;
@@ -655,12 +675,12 @@ namespace Game_of_Life
 
                 //Set out universe width and height to the files universe width and height
                 width = maxWidth;
-                lenght = maxHeight;
+                length = maxHeight;
 
                 //Create a new universe and scratch pad to new bool 2d array
                 //using the new width and lenght
-                universe = new bool[width, lenght];
-                scratchPad = new bool[width, lenght];
+                universe = new bool[width, length];
+                scratchPad = new bool[width, length];
 
                 //Set the readers location to the beginig of the file
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -715,14 +735,13 @@ namespace Game_of_Life
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //clears the universe
-            universe = new bool[width, lenght];
-            scratchPad = new bool[width, lenght];
+            universe = new bool[width, length];
+            scratchPad = new bool[width, length];
 
             timer.Enabled = false;
             generations = 0;
 
             graphicsPanel1.Invalidate();
-
         }
 
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
@@ -735,16 +754,19 @@ namespace Game_of_Life
 
         private void neighborCountToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Toggles show count neighbors on and off
             neighborCountToolStripMenuItem_Click(sender, e);
         }
 
         private void hUDToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Toggles the HUD on nad off
             hUDToolStripMenuItem_Click(sender, e);
         }
 
         private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Toggles the grid on and off
             gridToolStripMenuItem_Click(sender, e);
         }
 
@@ -752,13 +774,17 @@ namespace Game_of_Life
         {
             ColorDialog dlg = new ColorDialog();
 
+            //sets the color of the new dialog box to the color of the back ground
             dlg.Color = graphicsPanel1.BackColor;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the back ground color to the color the user selected 
                 graphicsPanel1.BackColor = dlg.Color;
 
+                //sets the windows setting ot the new color
                 Properties.Settings.Default.BackColor = dlg.Color;
+                //saves the new settings state
                 Properties.Settings.Default.Save();
 
                 graphicsPanel1.Invalidate();
@@ -769,14 +795,18 @@ namespace Game_of_Life
         {
             ColorDialog dlg = new ColorDialog();
 
+            //sets the color of the new dialog box to the color of the cell's current color
             dlg.Color = cellColor;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the cell's color to the color selected by the user
                 cellColor = dlg.Color;
 
+                //Sets the windows setting to the new cell color
                 Properties.Settings.Default.cellColor = dlg.Color;
-                //Properties.Settings.Default.Save();
+                //saves the new setting state
+                Properties.Settings.Default.Save();
 
                 graphicsPanel1.Invalidate();
             }
@@ -786,65 +816,95 @@ namespace Game_of_Life
         {
             ColorDialog dlg = new ColorDialog();
 
+            //sets the color of the new dialog box to the color of the grid
             dlg.Color = gridColor;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the grid color to the color the user selected
                 gridColor = dlg.Color;
 
+
+                //sets the setting to the new color fo the grid
                 Properties.Settings.Default.gridColor = dlg.Color;
+                //saves the new setting for the grid colors
                 Properties.Settings.Default.Save();
 
                 graphicsPanel1.Invalidate();
             }
-        }
-
-        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            backColorToolStripMenuItem1_Click(sender, e);
-        }
-
-        private void cellColorToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            cellColorToolStripMenuItem_Click(sender, e);
-        }
-
-        private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            gridColorToolStripMenuItem_Click(sender, e);
         }
 
         private void gridX10ColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
 
+            //sets the color for the new dialog box to the color of the x10 grid
             dlg.Color = gridX10Color;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the color of the x10 grid to the color selected by the user
                 gridX10Color = dlg.Color;
 
+                //sets the windows setting for the x10 grid to the new grid x10 color
                 Properties.Settings.Default.gridX10Color = dlg.Color;
+                //Saves the new setting
                 Properties.Settings.Default.Save();
 
                 graphicsPanel1.Invalidate();
             }
         }
 
+        //Sets the back ground color from the context menu
+        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Calls the change background color function from the context menu
+            backColorToolStripMenuItem1_Click(sender, e);
+        }
+
+        //Sets the cell color from the context menu
+        private void cellColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Calls the change cell color function from the context menu
+            cellColorToolStripMenuItem_Click(sender, e);
+        }
+
+        //Sets the grid color from the context menu
+        private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Calls the change cell color function from the context menu
+            gridColorToolStripMenuItem_Click(sender, e);
+        }
+
+
+        //sets the color of the x10 grid from the context menus
+        private void gridX10ColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //calls the function for setting the x10 grid color
+            gridX10ColorToolStripMenuItem1_Click(sender, e);
+        }
+
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OptionsDialog dlg = new OptionsDialog();
 
+            //sets the interval of the new dialog box to the current interval
             dlg.SetInterval(interval);
+            //sets the width of the new dialog box to the current width of the universe
             dlg.SetWidth(width);
-            dlg.SetHeight(lenght);
+            //sets the length of the new dialog box to the current length of the universe
+            dlg.SetHeight(length);
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the interval to the new interval the user provided
                 interval = dlg.GetInterval();
+                //sets the width to the new width the user provided
                 width = dlg.GetWidth();
-                lenght = dlg.GetHeight();
+                //sets the length to the new length the user provided
+                length = dlg.GetHeight();
 
+                //calls the funcrtion to create a new universe with the new variables
                 toolStripMenuItem2_Click(sender, e);
             }
         }
@@ -853,34 +913,45 @@ namespace Game_of_Life
         {
             RandomizeFromSeedDialogBox dlg = new RandomizeFromSeedDialogBox();
 
+            //sets the seed of the new dialog box the the current seed
             dlg.SetSeed(seed);
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //sets the seed to the new seed prodived by the user
                 seed = dlg.GetSeed();
 
+                //sets the windows setting to the new seed
                 Properties.Settings.Default.seed = seed;
+                //saves the new seed to the settings
                 Properties.Settings.Default.Save();
 
+                //calls the function that makes the new universe from the seed
                 fromCurrentSeedToolStripMenuItem_Click(sender, e);
             }
         }
 
         private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //creates a new radnom class
             Random ran = new Random(seed);
 
-            for (int y = 0; y < lenght; y++)
+            //loops though the universe
+            for (int y = 0; y < length; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
+                    //create a new number from the random class
+                    //then mods the value by 3
                     int chance = ran.Next() % 3;
 
+                    //if the result of the mod was 0 the cell is set to true
+                    //meaning that cell is now alive
                     if (chance == 0)
                     {
                         scratchPad[x, y] = true;
                     }
-                    else
+                    else // if the result of the mod is not 3 then the cell is dead
                     {
                         scratchPad[x, y] = false;
                     }
@@ -896,59 +967,97 @@ namespace Game_of_Life
 
         private void fromTimetoolStripMenu_Click(object sender, EventArgs e)
         {
+            //gets the current system time
             DateTime currentTime = System.DateTime.Now;
-            seed = currentTime.Day + currentTime.Month + currentTime.Year + currentTime.Hour + currentTime.Hour + currentTime.Minute + currentTime.Second;
 
+            //sets the seed to the hour, minute, and second values added together
+            seed = currentTime.Hour + currentTime.Minute + currentTime.Second;
+
+            //creates a new random class seed with the values from the current time
             Random ran = new Random(seed);
 
+            //then we set our seed to a new random seed create from the random class seeded from time
             seed = ran.Next();
 
             toolStripStatusLabelSeed.Text = "Seed = " + seed.ToString();
 
+            //calls the function that handles creating a new random universe
             fromCurrentSeedToolStripMenuItem_Click(sender, e);
         }
 
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //calls the function that starts the game logic
             toolStripButton1_Click(sender, e);
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //calls the function that pauses the game
             toolStripButton4_Click(sender, e);
         }
 
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //calls the function that runs next generation
             toolStripButton2_Click(sender, e);
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //sets the width to the width that the application started with
             width = startwidth;
             Properties.Settings.Default.width = width;
 
-            lenght = startlenght;
-            Properties.Settings.Default.lenght = lenght;
+            //sets the length to the length that the application started with
+            length = startlength;
+            Properties.Settings.Default.length = length;
 
+            //sets the interval to the interval that the application started with
             interval = startinterval;
             Properties.Settings.Default.interval = interval;
 
+            //sets the seed to the seed that the application started with
+            seed = startseed;
+            Properties.Settings.Default.seed = seed;
+
+            //sets the back ground to the background that the application started with
             graphicsPanel1.BackColor = startBackColor;
             Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
 
+            //sets the cell color to the cell color that the application started with
             cellColor = startcellColor;
             Properties.Settings.Default.cellColor = cellColor;
 
+            //sets the grid color to the grid color that the application started with
             gridColor = startgridColor;
             Properties.Settings.Default.gridColor = gridColor;
 
+            //sets the x10 grid color to the x10 grid color that the application started with
             gridX10Color = startgridX10Color;
             Properties.Settings.Default.gridX10Color = gridX10Color;
 
+            //sets ShowHUD to what ShowHUd was when the application started
+            showHUD = startshowHUD;
+            Properties.Settings.Default.showHUD = showHUD;
+
+            //sets Show neighbor count to what Show neighbos count was when the application started
+            ShowNeighborCount = startShowNeighborCount;
+            Properties.Settings.Default.ShowNeighborCount = ShowNeighborCount;
+
+            //sets Show grid to what Show grid was when the application started
+            showGrid = startshowGrid;
+            Properties.Settings.Default.showGrid = showGrid;
+
+            //sets the boundary type to what the boundary type was when the application started
+            boundaryType = startboundaryType;
+            Properties.Settings.Default.boundaryType = boundaryType;
+
+            //saves the new settings
             Properties.Settings.Default.Save();
 
             graphicsPanel1.Invalidate();
         }
+
     }
 }
