@@ -466,41 +466,17 @@ namespace Game_of_Life
         {
             //Starts the timer after the run button is clicked
             timer.Enabled = true;
+            PlaytoolStripButton.Enabled = false;
+            playToolStripMenuItem.Enabled = false;
+
+            pauseToolStripMenuItem.Enabled = true;
+            PausetoolStripButton.Enabled = true;
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             //Starts to calculate the next generation when the next button is clicked
             NextGeneration();
-        }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            //Sets the universe to a random state
-            Random ran = new Random();
-
-            for (int y = 0; y < lenght; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    int chance = ran.Next() % 3;
-
-                    if (chance == 0)
-                    {
-                        scratchPad[x, y] = true;
-                    }
-                    else
-                    {
-                        scratchPad[x, y] = false;
-                    }
-                }
-            }
-
-            bool[,] temp = universe;
-            universe = scratchPad;
-            scratchPad = temp;
-
-            graphicsPanel1.Invalidate();
         }
 
         private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -583,6 +559,12 @@ namespace Game_of_Life
         {
             //pause the games time when the pause btton is clicked
             timer.Enabled = false;
+
+            pauseToolStripMenuItem.Enabled = false;
+            PausetoolStripButton.Enabled = false;
+            
+            PlaytoolStripButton.Enabled = true;
+            playToolStripMenuItem.Enabled = true;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
